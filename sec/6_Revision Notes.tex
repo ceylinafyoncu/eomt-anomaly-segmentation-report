@@ -1,0 +1,9 @@
+
+\section*{Revision Notes}
+
+\textcolor{blue}{In this revised version, we addressed the two issues reported in the project feedback. First, we corrected the acronym definition of RbA. In the previous report, RbA was incorrectly written as ``Reweighted by Area''. We corrected it to ``Rejected by All'' in the abstract, methodology, results, conclusion, and all related explanations.}
+
+\textcolor{blue}{Second, we revised the RbA implementation and its explanation. In the previous version, RbA was treated as a generic post-hoc score and was described with a tanh-based formulation. In the revised version, RbA is implemented as the negative total known-class mass over the EoMT semantic score map. The idea is that an anomalous pixel should receive low acceptance from all known classes. Therefore, lower known-class mass corresponds to a higher anomaly score. This change affects the RbA description in Section~\ref{sec:method}, the anomaly scoring discussion in Section~\ref{sec:results}, and the final interpretation in Section~\ref{sec:discussion}.}
+
+\textcolor{blue}{We also updated the temperature-scaling discussion. Since the revised RbA score is not based on softmax calibration, RbA is no longer included in the temperature-scaling study. The temperature-scaling table now reports only MSP and MaxEntropy. The revised RbA results are reported separately without temperature scaling. No changes were made to the semantic segmentation setup, fine-tuning setup, datasets, evaluation metrics, or the main ERFNet/EoMT comparison.}
+
