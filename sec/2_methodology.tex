@@ -76,14 +76,14 @@ Both ERFNet (pixel-based) and EoMT (mask-based) produce class logits, and this a
     \text{score}_{\text{Entropy}}(\mathbf{x}) = -\sum_{c=1}^{C} p_c(\mathbf{x}) \log p_c(\mathbf{x})
     \end{equation}
     
-    \item \textbf{RbA (Reweighted by Area)~\cite{rba}:} Only for mask-based models. RbA flags pixels that are not strongly claimed by any mask. 
-    It relies on an independence assumption. In a mask architecture, 
-    each class behaves like a one-vs-all classifier, so class probabilities do not need to sum to 1.
-    In a pixel-wise classifier, the class probabilities must sum to 1, it violates the independence assumption, and RbA loses the OoD-detection meaning.
-    That's why we don't apply RbA to ERFNet.
-    \begin{equation}
-    \text{score}_{\text{RbA}}(\mathbf{x}) = -\sum_{c=1}^{C} \tanh(L_c(\mathbf{x}))
-    \end{equation}
+ \item \textbf{\textcolor{blue}{RbA (Rejected by All)~\cite{rba}:}} \textcolor{blue}{RbA is used only for mask-based models. It is based on the idea that an   unknown pixel should receive low acceptance from all known classes. In our pipeline, the EoMT per-class semantic score map is already obtained by combining mask predictions and class predictions while excluding the no-object class. Therefore, in the revised implementation, we compute RbA as the negative total known-class mass.}
+\textcolor{blue}{In a pixel-wise classifier, class probabilities are normalized by the softmax and must sum to 1, so the rejected-by-all interpretation is not valid in the same way. That is why we do not apply RbA to ERFNet.}
+\begin{equation}
+\textcolor{blue}{
+\text{score}_{\text{RbA}}(\mathbf{x}) = -\sum_{c=1}^{C} L_c(\mathbf{x})
+}
+\end{equation}
+\textcolor{blue}{Here, \(L_c(\mathbf{x})\) is the EoMT semantic score for class \(c\) at pixel \(\mathbf{x}\). Higher scores indicate lower total acceptance by known classes and therefore higher anomaly likelihood.}
 \end{itemize}
 
 
@@ -91,7 +91,7 @@ Both ERFNet (pixel-based) and EoMT (mask-based) produce class logits, and this a
 
 It is a calibration technique that can shift recall and precision in anomaly detection.
 It divides logits by $T$ before softmax. $T > 1$ makes probabilities more uncertain, $T < 1$ makes them more confident. 
-We tested $T \in \{0.5, 0.75, 1.0, 1.1, 1.5, 2.0\}$ on MSP, MaxEntropy, and RbA. We didn't test on MaxLogit, because it doesn't use softmax.
+\textcolor{blue}{In the revised implementation, we tested $T \in \{0.5, 0.75, 1.0, 1.1, 1.5, 2.0\}$ only on MSP and MaxEntropy. We did not test temperature scaling on MaxLogit because it doesn't use softmax, and we didn't apply it to RbA because the revised RbA score is based on the total known-class mass rather than softmax calibration.}
 
 \paragraph{Datasets and metrics.}
 
