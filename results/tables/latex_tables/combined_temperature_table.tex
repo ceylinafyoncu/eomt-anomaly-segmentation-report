@@ -1,7 +1,6 @@
-
 \begin{table*}[!htbp]
 \centering
-\caption{Temperature scaling results across the three models. Only $T \in \{0.5, 1.0, 2.0\}$ shown; intermediate values $T \in \{0.75, 1.1, 1.5\}$ follow the same trend. AuPRC ($\uparrow$, \%) and FPR95 ($\downarrow$, \%) on five benchmarks. RbA is omitted for ERFNet as it is incompatible with pixel-based architectures.}
+\caption{Temperature scaling results across the three models. Only $T \in \{0.5, 1.0, 2.0\}$ shown; intermediate values $T \in \{0.75, 1.1, 1.5\}$ follow the same trend. AuPRC ($\uparrow$, \%) and FPR95 ($\downarrow$, \%) on five benchmarks. \textcolor{blue}{In the revised version, RbA is omitted from this temperature-scaling table because the final RbA score is not temperature-scaled.}}
 \label{tab:temperature_combined}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{llc|cc|cc|cc|cc|cc}
@@ -22,9 +21,6 @@ EoMT-Cityscapes & MSP        & 0.5 & 74.21 & 33.73 & 90.10 & 0.55  & 25.40 & 14.
                 & MaxEntropy & 0.5 & 77.43 & 33.68 & 90.09 & 0.59  & 29.55 & 14.83 & 53.21 & 34.91 & 78.43 & 19.03 \\
                 &            & 1.0 & 77.88 & 33.60 & 90.01 & 0.68  & 29.56 & 14.72 & 52.51 & 34.84 & 78.14 & 18.79 \\
                 &            & 2.0 & 77.91 & 33.53 & 89.97 & 0.72  & 29.01 & 14.65 & 51.46 & 34.77 & 77.43 & 18.63 \\
-                & RbA        & 0.5 & 69.57 & 76.02 & 73.77 & 99.95 & 26.00 & 67.27 & 55.85 & 84.55 & 74.12 & 44.02 \\
-                &            & 1.0 & 69.99 & 80.06 & 86.97 & 99.95 & 25.97 & 8.79  & 56.11 & 82.68 & 74.62 & 20.41 \\
-                &            & 2.0 & 70.83 & 91.98 & 88.25 & 99.94 & 25.92 & 10.05 & 55.91 & 35.88 & 75.09 & 17.96 \\
 \midrule
 EoMT-Fine-tuned & MSP        & 0.5 & 58.59 & 98.60 & 73.69 & 25.10 & 27.07 & 26.22 & 53.35 & 39.78 & 54.96 & 16.27 \\
                 &            & 1.0 & 57.15 & 98.61 & 73.61 & 25.09 & 27.11 & 26.16 & 53.41 & 39.74 & 54.99 & 16.22 \\
@@ -32,9 +28,23 @@ EoMT-Fine-tuned & MSP        & 0.5 & 58.59 & 98.60 & 73.69 & 25.10 & 27.07 & 26.
                 & MaxEntropy & 0.5 & 54.10 & 98.71 & 73.43 & 28.83 & 27.91 & 26.21 & 53.87 & 39.53 & 55.83 & 15.28 \\
                 &            & 1.0 & 54.49 & 98.82 & 72.62 & 57.49 & 28.56 & 26.33 & 54.27 & 39.25 & 56.22 & 14.78 \\
                 &            & 2.0 & 54.65 & 98.82 & 71.69 & 60.82 & 29.18 & 26.24 & 54.50 & 38.76 & 56.33 & 14.51 \\
-                & RbA        & 0.5 & 51.52 & 99.53 & 62.10 & 99.98 & 31.42 & 78.97 & 56.29 & 89.51 & 52.39 & 81.57 \\
-                &            & 1.0 & 51.82 & 99.85 & 64.22 & 99.98 & 30.61 & 26.92 & 56.29 & 90.34 & 56.14 & 13.38 \\
-                &            & 2.0 & 51.88 & 99.87 & 66.12 & 99.98 & 30.36 & 24.49 & 55.73 & 89.65 & 56.57 & 12.09 \\
 \bottomrule
 \end{tabular}}
 \end{table*}
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\textcolor{blue}{Revised RbA results for EoMT-COCO using the final Rejected by All known-class-mass score. AuPRC ($\uparrow$, \%) and FPR95 ($\downarrow$, \%) are reported on the five anomaly benchmarks.}}
+\label{tab:rba_revised_coco}
+\begin{tabular}{lcc}
+\toprule
+Dataset & AuPRC$\uparrow$ & FPR95$\downarrow$ \\
+\midrule
+RoadAnomaly21        & \textcolor{blue}{37.44} & \textcolor{blue}{62.24} \\
+RoadObstacle21       & \textcolor{blue}{36.75} & \textcolor{blue}{99.99} \\
+FS Lost\&Found       & \textcolor{blue}{0.28}  & \textcolor{blue}{96.62} \\
+FS Static            & \textcolor{blue}{2.09}  & \textcolor{blue}{99.96} \\
+RoadAnomaly          & \textcolor{blue}{20.64} & \textcolor{blue}{84.37} \\
+\bottomrule
+\end{tabular}
+\end{table}
