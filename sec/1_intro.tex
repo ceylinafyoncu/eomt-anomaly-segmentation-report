@@ -16,6 +16,6 @@ They were trained on exactly 19 classes, and during training they did not see an
 However, the model must assign objects it has never seen to one of its known classes. 
 If the model assigns an animal or fence as road, the vehicle tries to drive through it. This creates safety problems. 
 This type of data is called out-of-distribution (OoD) data. 
-We use four post-hoc scoring methods (MSP, MaxLogit~\cite{maxlogit}, MaxEntropy~\cite{maxentropy}, RbA~\cite{rba}) with temperature scaling, and evaluate them on benchmarks from SMIYC~\cite{smiyc} and Fishyscapes~\cite{fishyscapes}.
+We use four post-hoc scoring methods (MSP, MaxLogit~\cite{maxlogit}, MaxEntropy~\cite{maxentropy}, and \textcolor{blue}{RbA (Rejected by All)~\cite{rba}}), and evaluate them on benchmarks from SMIYC~\cite{smiyc} and Fishyscapes~\cite{fishyscapes}. \textcolor{blue}{Temperature scaling is evaluated only for MSP and MaxEntropy, while RbA is reported without temperature scaling because the revised RbA score is based on the total known-class mass.}
 We evaluated EoMT on semantic segmentation and compared two differently trained models (COCO-EoMT vs Cityscapes-EoMT).
 Then we fine-tuned the COCO-EoMT on Cityscapes, and the model achieved 78.85\% mIoU. 
