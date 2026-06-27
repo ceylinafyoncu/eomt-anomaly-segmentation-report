@@ -63,8 +63,7 @@ This happens because training the model for a short time makes it hyper-focused 
 \paragraph{Comparison of scoring functions.}
 Interesting finding here is that MaxLogit beats MSP and MaxEntropy on ERFNet (38.31 vs 29.09 vs 30.96 on RA-21), but on EoMT they are almost same.
 This result shows that scoring-method choice depends on the architecture. Figure~\ref{fig:step8} shows score maps for the four methods on RA-21 images.
-RbA has a different pattern in here. It achieves highest AuPRC on FS L\&F (30.61) and FS Static (56.29) for EoMT-Fine-tuned. 
-However, it also produces high score for FPR95, so it separates the outlier but it is too sensitive so it makes a lot of false alarms.  
+\textcolor{blue}{After revising RbA, we report it as a rejected-by-all known-class-mass score instead of a temperature-scaled softmax score. For EoMT-COCO, the revised RbA improves the anomaly score on RoadObstacle21 compared with the other EoMT-COCO scoring functions, reaching 36.75\% AuPRC, while MSP, MaxLogit, and MaxEntropy remain below 4\%. On RoadAnomaly21, revised RbA reaches 37.44\% AuPRC, which is competitive with MSP and MaxLogit but still below MaxEntropy. However, RbA still gives high FPR95 on some datasets, especially RoadObstacle21 and FS Static, meaning that it can detect some anomalous regions but may also produce many false positives.}
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{results/figures/step8/step8_anomaly_maps.png}
@@ -80,14 +79,21 @@ MaxEntropy, and RbA for EoMT-Cityscapes.}
 
 \subsection{Temperature Scaling Study}
 
-For temperature scaling, we tried $T \in \{0.5, 0.75, 1.0, 1.1, 1.5, 2.0\}$ on MSP, MaxEntropy, and RbA 
+For temperature scaling, we tried $T \in \{0.5, 0.75, 1.0, 1.1, 1.5, 2.0\}$ on MSP and MaxEntropy 
 for EoMT-Cityscapes, EoMT-Fine-tuned, and ERFNet.
+\textcolor{blue}{In the revised version, RbA is excluded from temperature scaling because the final RbA score is computed as the negative total known-class mass over the EoMT semantic score map, not as a softmax-calibrated probability score.}
 Main finding that AuPRC is mostly stable across $T$ (Table~\ref{tab:temperature_combined}).
 \begin{itemize}
     \item In EoMT-Cityscapes (Table~\ref{tab:temperature_combined}), MSP AuPRC on RA-21 stays in a 0.3\% window, and MaxEntropy stays in a 0.5\% window.
     \item In EoMT-Fine-tuned (Table~\ref{tab:temperature_combined}), It follows similar pattern as EoMT-Cityscapes
     \item In ERFNet (Table~\ref{tab:temperature_combined}), MSP on RA-21 has a change range for 3\%, but its AuPRC is so low that the gain is not meaningful. 
 \end{itemize}
+
+\textcolor{blue}{The previous RbA temperature analysis was removed because it no longer corresponds to the revised RbA implementation. In the final version, RbA is reported without temperature scaling.}
+As result, we found that T=1.0 is competitive for AuPRC most settings. Temperature scaling doesn't meaningfully improve AuPRC for MSP and MaxEntropy, and it is not a consistent gain.
+Post-hoc temperature calibration is not a reliable method for improving anomaly segmentation on these benchmarks.
+
+
 
 Interesting finding that RbA's AuPRC is stable, but its FPR95 swings with T:
 \begin{itemize}
